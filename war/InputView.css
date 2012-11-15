@@ -28,6 +28,25 @@ h1 {
   color: red;
 }
 
+.customScrollPanel{
+ background-color : red;
+ width: 604px;
+}
+
+.column{
+
+}
+
+.row{
+  height: 40px;
+  font-size: 14px;
+  border: 2px solid white;
+}
+
+.columnLabel{
+      padding: 4px;
+}
+
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
