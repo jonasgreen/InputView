@@ -3,9 +3,7 @@ package com.inputview.client.table;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.CustomScrollPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.*;
 import com.inputview.client.model.Product;
 import com.inputview.client.model.ProductVersion;
 
@@ -16,7 +14,6 @@ import java.util.List;
  *
  */
 public class Table extends FlowPanel {
-    public static int WIDTH = 600;
 
     private List<Product> products;
     private List<Row> rows = new ArrayList<Row>();
@@ -25,7 +22,6 @@ public class Table extends FlowPanel {
 
     public Table(List<Product> products) {
         this.products = products;
-        rowPanel.setWidth(WIDTH + "px");
         //add(rowPanel);
         addHeaderRow();
         add(getCustomScrollPanel());
@@ -38,8 +34,9 @@ public class Table extends FlowPanel {
     public ScrollPanel getCustomScrollPanel() {
         if (customScrollPanel == null) {
             customScrollPanel = new CustomScrollPanel(rowPanel);
-            customScrollPanel.setHeight(Window.getClientHeight() - 80 + "px");
+            customScrollPanel.setHeight(Window.getClientHeight() - 150 + "px");
             customScrollPanel.setStyleName("customScrollPanel");
+
         }
         return customScrollPanel;
     }
@@ -47,6 +44,37 @@ public class Table extends FlowPanel {
 
     private void addHeaderRow() {
         FlowPanel panel = new FlowPanel();
+        panel.setStyleName("table_header_row");
+
+        Label label = new Label("Type");
+        label.setStyleName("table_header");
+        label.setWidth("96px");
+        panel.add(label);
+
+        label = new Label("Name");
+        label.setStyleName("table_header");
+        panel.add(label);
+
+        FlowPanel fl = new FlowPanel();
+        HTML html = new HTML("&nbsp;");
+        fl.add(html);
+        fl.setStyleName("table_header");
+        fl.setWidth("70px");
+        panel.add(fl);
+
+
+        label = new Label("From");
+        label.setStyleName("table_header");
+        label.setWidth("78px");
+        panel.add(label);
+
+
+        label = new Label("To");
+        label.setStyleName("table_header");
+        label.setWidth("70px");
+        panel.add(label);
+
+        add(panel);
 
     }
 
@@ -59,6 +87,7 @@ public class Table extends FlowPanel {
     }
 
     private void addProductRows(Product p) {
+
         for (ProductVersion version : p.getVersions()) {
             Row r = new Row(version, this);
             rows.add(r);

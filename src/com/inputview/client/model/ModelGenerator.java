@@ -12,7 +12,7 @@ public class ModelGenerator {
 
     private char[] chars = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z'};
 
-    private String[] names = new String[]{"Sophie Jensen", "Allan Nielsen", "Morten Just", "Dennis Hjortshøj"};
+    private String[] names = new String[]{"Sophie J.", "Allan N.", "Morten J.", "Dennis H."};
 
 
     public List<Product> getModelList(){
@@ -26,11 +26,11 @@ public class ModelGenerator {
             if(Random.nextInt(10) < 3){
                 p.addVersion(nextPersonName(), nextPersonName(), "01-12-2014", "01-06-2020", false);
                 if(Random.nextInt(10) < 3){
-                    p.addVersion(nextPersonName(), nextPersonName(), "01-12-2014", "01-06-20020", true);
+                    p.addVersion(nextPersonName(), nextPersonName(), "01-12-2014", "01-06-2020", true);
                 }
             }
             else if(Random.nextInt(10) < 3){
-                p.addVersion(nextPersonName(), nextPersonName(), "01-12-2013", "01-06-20020", true);
+                p.addVersion(nextPersonName(), nextPersonName(), "01-12-2013", "01-06-2020", true);
             }
 
             modelList.add(p);

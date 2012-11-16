@@ -18,7 +18,6 @@ public class SearchPage extends FlowPanel {
     public SearchPage(List<Product> products) {
         this.products = products;
         setHeight(Window.getClientHeight() + "px");
-        getElement().getStyle().setBackgroundColor("yellow");
         add(getTable());
     }
 

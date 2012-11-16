@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.inputview.client.model.TableLine;
-import com.sun.java.swing.plaf.nimbus.TableEditorPainter;
+import com.inputview.client.pages.InputViewPage;
 
 /**
  *
@@ -22,21 +22,34 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
     private FlowPanel colTwo;
     private FlowPanel colThree;
     private FlowPanel colFour;
+    private FlowPanel colTo;
     FlowPanel content = new FlowPanel();
 
     private TableLine model;
     private Table parent;
+    private Label plusMinus;
 
     public Row(TableLine model, Table table) {
         this.parent = table;
         this.model = model;
         setStyleName("row");
+        if(model.isDraft()){
+            getElement().getStyle().setBackgroundColor("rgb(247,247,247)");
+            getElement().getStyle().setColor("rgb(151,151,151)");
+        }
 
-        this.setWidth(Table.WIDTH+"px");
-        content.add(getColOne());
-        content.add(getColTwo());
-        content.add(getColThree());
-        content.add(getColFour());
+        //this.setWidth(Table.WIDTH+"px");
+
+        /*FlowPanel fl = new FlowPanel();
+        fl.add(getPlusMinus());
+        fl.getElement().getStyle().setFloat(Style.Float.LEFT);
+        content.add(fl);
+        */
+        content.add(getColType());
+        content.add(getColName());
+        content.add(getColDraft());
+        content.add(getColFrom());
+        content.add(getColTo());
 
         add(content);
         addClickHandler(new ClickHandler() {
@@ -48,18 +61,19 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
 
         addFocusHandler(new FocusHandler() {
             public void onFocus(FocusEvent event) {
-                getElement().getStyle().setBorderColor("blue");
-                getElement().getStyle().setFontSize(18, Style.Unit.PX);
-                getElement().getStyle().setFontWeight(Style.FontWeight.BOLD);
+                getElement().getStyle().setBackgroundColor("yellow");
             }
         });
 
         addBlurHandler(new BlurHandler() {
             public void onBlur(BlurEvent event) {
-                getElement().getStyle().setBorderColor("white");
-                getElement().getStyle().setFontSize(14, Style.Unit.PX);
-                getElement().getStyle().setFontWeight(Style.FontWeight.NORMAL);
 
+                if(Row.this.model.isDraft()){
+                    getElement().getStyle().setBackgroundColor("rgb(247,247,247)");
+                }
+                else {
+                    getElement().getStyle().setBackgroundColor("white");
+                }
             }
         });
 
@@ -86,8 +100,26 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
                     event.stopPropagation();
                     event.preventDefault();
                 }
+                else if(KeyCodes.KEY_ENTER == event.getNativeKeyCode()){
+                    showEditPage();
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
             }
         });
+    }
+
+    private void showEditPage() {
+        InputViewPage.getEditPage().show();
+    }
+
+    public Label getPlusMinus() {
+        if (plusMinus == null) {
+            plusMinus = new Label("+");
+            plusMinus.setStyleName("plusMinus");
+
+        }
+        return plusMinus;
     }
 
     private void addChild() {
@@ -98,7 +130,6 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
         content.add(fl);
         fl.setHeight("40px");
         fl.setWidth("400px");
-        fl.getElement().getStyle().setBackgroundColor("yellow");
         fl.getElement().getStyle().setMarginLeft(30, Style.Unit.PX);
 
         this.setHeight("80px");
@@ -106,32 +137,43 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
 
     }
 
-    public FlowPanel getColOne() {
+    public FlowPanel getColType() {
         if (colOne == null) {
             colOne = new Column(model.getType().name());
+            colOne.setWidth("100px");
         }
         return colOne;
     }
 
-    public FlowPanel getColTwo() {
+    public FlowPanel getColName() {
         if (colTwo == null) {
             colTwo = new Column(model.getName());
         }
         return colTwo;
     }
 
-    public FlowPanel getColThree() {
+    public FlowPanel getColDraft() {
         if (colThree == null) {
             colThree = new Column(model.isDraft() ? "Kladde" : "");
+            colThree.setWidth("70px");
         }
         return colThree;
     }
 
-    public FlowPanel getColFour() {
+    public FlowPanel getColFrom() {
         if (colFour == null) {
-            colFour = new Column(model.getAuthor());
+            colFour = new Column(model.getStartDate());
+            colFour.setWidth("90px");
         }
         return colFour;
+    }
+
+    public FlowPanel getColTo() {
+        if (colTo == null) {
+            colTo = new Column(model.getEndDate());
+            colTo.setWidth("90px");
+        }
+        return colTo;
     }
 
     public HandlerRegistration addClickHandler(ClickHandler handler) {
