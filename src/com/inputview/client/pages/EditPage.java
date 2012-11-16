@@ -1,6 +1,8 @@
 package com.inputview.client.pages;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.inputview.client.warpview.WarpView;
@@ -19,6 +21,13 @@ public class EditPage extends FlowPanel {
         setStyleName("editPage");
         setWidth(width + "px");
         setHeight(Window.getClientHeight() + "px");
+
+        Window.addResizeHandler(new ResizeHandler() {
+            public void onResize(ResizeEvent event) {
+                setHeight(event.getHeight()+"px");
+            }
+        });
+
         getElement().getStyle().setRight(right, Style.Unit.PX);
         addStyleName("animateEditPage");
         add(new WarpView());

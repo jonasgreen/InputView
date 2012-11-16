@@ -33,12 +33,11 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
         this.parent = table;
         this.model = model;
         setStyleName("row");
-        if(model.isDraft()){
+        if (model.isDraft()) {
             getElement().getStyle().setBackgroundColor("rgb(247,247,247)");
             getElement().getStyle().setColor("rgb(151,151,151)");
         }
 
-        //this.setWidth(Table.WIDTH+"px");
 
         /*FlowPanel fl = new FlowPanel();
         fl.add(getPlusMinus());
@@ -54,25 +53,33 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
         add(content);
         addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-
+                InputViewPage.getEditPage().hide();
+                event.stopPropagation();
+                event.preventDefault();
             }
         });
 
 
         addFocusHandler(new FocusHandler() {
             public void onFocus(FocusEvent event) {
-                getElement().getStyle().setBackgroundColor("yellow");
+                getElement().getStyle().setBackgroundColor("rgb(77,98,62)");
+                if (Row.this.model.isDraft()) {
+                }
+                else {
+                    getElement().getStyle().setColor("white");
+                }
             }
         });
 
         addBlurHandler(new BlurHandler() {
             public void onBlur(BlurEvent event) {
 
-                if(Row.this.model.isDraft()){
+                if (Row.this.model.isDraft()) {
                     getElement().getStyle().setBackgroundColor("rgb(247,247,247)");
                 }
                 else {
                     getElement().getStyle().setBackgroundColor("white");
+                    getElement().getStyle().setColor("rgb(51,51,51)");
                 }
             }
         });
@@ -83,24 +90,32 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
             }
         });
 
+        addDoubleClickHandler(new DoubleClickHandler() {
+            public void onDoubleClick(DoubleClickEvent event) {
+                showEditPage();
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        });
+
         addKeyDownHandler(new KeyDownHandler() {
             public void onKeyDown(KeyDownEvent event) {
-                if(KeyCodes.KEY_DOWN == event.getNativeKeyCode()){
+                if (KeyCodes.KEY_DOWN == event.getNativeKeyCode()) {
                     parent.down(Row.this);
                     event.stopPropagation();
                     event.preventDefault();
                 }
-                else if(KeyCodes.KEY_UP == event.getNativeKeyCode()){
+                else if (KeyCodes.KEY_UP == event.getNativeKeyCode()) {
                     parent.up(Row.this);
                     event.stopPropagation();
                     event.preventDefault();
                 }
-                else if(KeyCodes.KEY_RIGHT == event.getNativeKeyCode()){
+                else if (KeyCodes.KEY_RIGHT == event.getNativeKeyCode()) {
                     addChild();
                     event.stopPropagation();
                     event.preventDefault();
                 }
-                else if(KeyCodes.KEY_ENTER == event.getNativeKeyCode()){
+                else if (KeyCodes.KEY_ENTER == event.getNativeKeyCode()) {
                     showEditPage();
                     event.stopPropagation();
                     event.preventDefault();
