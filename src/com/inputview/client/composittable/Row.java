@@ -1,54 +1,39 @@
-package com.inputview.client.table;
+package com.inputview.client.composittable;
 
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.inputview.client.model.TableLine;
-import com.inputview.client.pages.InputViewPage;
 
 /**
  *
  */
-public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHandlers, HasFocusHandlers {
+public class Row implements HasClickHandlers, HasMouseOverHandlers, HasFocusHandlers {
 
-    private static int idCount = 1;
-    private int id = idCount++;
-
-
-    private FlowPanel colOne;
-    private FlowPanel colTwo;
-    private FlowPanel colThree;
-    private FlowPanel colFour;
-    private FlowPanel colTo;
-    FlowPanel content = new FlowPanel();
+   /* FlowPanel content = new FlowPanel();
+    FlowPanel primaryContent = new FlowPanel();
+    private ProductTable child;
 
     private TableLine model;
-    private Table parent;
+    //private DivTableComposite parent;
     private Label plusMinus;
 
-    public Row(TableLine model, Table table) {
-        this.parent = table;
+    public Row(TableLine model, DivTableComposite DivTable) {
+        this.parent = DivTable;
         this.model = model;
         setStyleName("row");
+        primaryContent.setStyleName("rowPrimaryContent");
+        content.setStyleName("rowContent");
         if (model.isDraft()) {
             getElement().getStyle().setBackgroundColor("rgb(247,247,247)");
             getElement().getStyle().setColor("rgb(151,151,151)");
         }
 
 
-        /*FlowPanel fl = new FlowPanel();
-        fl.add(getPlusMinus());
-        fl.getElement().getStyle().setFloat(Style.Float.LEFT);
-        content.add(fl);
-        */
-        content.add(getColType());
-        content.add(getColName());
-        content.add(getColDraft());
-        content.add(getColFrom());
-        content.add(getColTo());
+
+        content.add(primaryContent);
 
         add(content);
         addClickHandler(new ClickHandler() {
@@ -62,11 +47,11 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
 
         addFocusHandler(new FocusHandler() {
             public void onFocus(FocusEvent event) {
-                getElement().getStyle().setBackgroundColor("rgb(77,98,62)");
+                primaryContent.getElement().getStyle().setBackgroundColor("rgb(77,98,62)");
                 if (Row.this.model.isDraft()) {
                 }
                 else {
-                    getElement().getStyle().setColor("white");
+                    primaryContent.getElement().getStyle().setColor("white");
                 }
             }
         });
@@ -75,11 +60,11 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
             public void onBlur(BlurEvent event) {
 
                 if (Row.this.model.isDraft()) {
-                    getElement().getStyle().setBackgroundColor("rgb(247,247,247)");
+                    primaryContent.getElement().getStyle().setBackgroundColor("rgb(247,247,247)");
                 }
                 else {
-                    getElement().getStyle().setBackgroundColor("white");
-                    getElement().getStyle().setColor("rgb(51,51,51)");
+                    primaryContent.getElement().getStyle().setBackgroundColor("white");
+                    primaryContent.getElement().getStyle().setColor("rgb(51,51,51)");
                 }
             }
         });
@@ -115,6 +100,11 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
                     event.stopPropagation();
                     event.preventDefault();
                 }
+                else if (KeyCodes.KEY_LEFT == event.getNativeKeyCode()) {
+                    removeChild();
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
                 else if (KeyCodes.KEY_ENTER == event.getNativeKeyCode()) {
                     showEditPage();
                     event.stopPropagation();
@@ -128,68 +118,29 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
         InputViewPage.getEditPage().show();
     }
 
-    public Label getPlusMinus() {
-        if (plusMinus == null) {
-            plusMinus = new Label("+");
-            plusMinus.setStyleName("plusMinus");
-
-        }
-        return plusMinus;
-    }
 
     private void addChild() {
-        FlowPanel fl = new FlowPanel();
-        fl.add(new Label(" ---- Child"));
-        fl.getElement().getStyle().setClear(Style.Clear.BOTH);
-
-        content.add(fl);
-        fl.setHeight("40px");
-        fl.setWidth("400px");
-        fl.getElement().getStyle().setMarginLeft(30, Style.Unit.PX);
-
-        this.setHeight("80px");
-        parent.getCustomScrollPanel().onResize();
-
-    }
-
-    public FlowPanel getColType() {
-        if (colOne == null) {
-            colOne = new Column(model.getType().name());
-            colOne.setWidth("100px");
+        if(child != null){
+            return;
         }
-        return colOne;
+        getPlusMinus().setText("-");
+        child = new Table(new ModelGenerator().getModelList());
+        child.getElement().getStyle().setBackgroundColor("yellow");
+        child.getElement().getStyle().setClear(Style.Clear.BOTH);
+        content.add(child);
+
+        Table.EVENT_BUS.fireEvent(new OnResizeEvent(0,0));
     }
 
-    public FlowPanel getColName() {
-        if (colTwo == null) {
-            colTwo = new Column(model.getName());
+    private void removeChild() {
+        if(child != null){
+            child.removeFromParent();
+            child = null;
         }
-        return colTwo;
+        getPlusMinus().setText("+");
+        Table.EVENT_BUS.fireEvent(new OnResizeEvent(0,0));
     }
 
-    public FlowPanel getColDraft() {
-        if (colThree == null) {
-            colThree = new Column(model.isDraft() ? "Kladde" : "");
-            colThree.setWidth("70px");
-        }
-        return colThree;
-    }
-
-    public FlowPanel getColFrom() {
-        if (colFour == null) {
-            colFour = new Column(model.getStartDate());
-            colFour.setWidth("90px");
-        }
-        return colFour;
-    }
-
-    public FlowPanel getColTo() {
-        if (colTo == null) {
-            colTo = new Column(model.getEndDate());
-            colTo.setWidth("90px");
-        }
-        return colTo;
-    }
 
     public HandlerRegistration addClickHandler(ClickHandler handler) {
         return addDomHandler(handler, ClickEvent.getType());
@@ -205,26 +156,21 @@ public class Row extends FocusPanel implements HasClickHandlers, HasMouseOverHan
         return addDomHandler(handler, FocusEvent.getType());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+*/
 
-        Row widgets = (Row) o;
-
-        if (id != widgets.id) {
-            return false;
-        }
-
-        return true;
+    public HandlerRegistration addClickHandler(ClickHandler handler) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public int hashCode() {
-        return id;
+    public HandlerRegistration addFocusHandler(FocusHandler handler) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void fireEvent(GwtEvent<?> event) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

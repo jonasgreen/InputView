@@ -38,7 +38,6 @@ public class WarpView extends FlowPanel {
         getElement().getStyle().setColor("#333333");
 
 
-        content.getElement().getStyle().setMargin(0, Style.Unit.PX);
         content.getElement().getStyle().setProperty("margin", "auto");
         content.setWidth("1000px");
         add(content);

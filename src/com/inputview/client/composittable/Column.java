@@ -1,4 +1,4 @@
-package com.inputview.client.table;
+package com.inputview.client.composittable;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;

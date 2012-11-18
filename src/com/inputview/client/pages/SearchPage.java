@@ -2,8 +2,8 @@ package com.inputview.client.pages;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.inputview.client.composittable.ProductTable;
 import com.inputview.client.model.Product;
-import com.inputview.client.table.Table;
 
 import java.util.List;
 
@@ -13,21 +13,22 @@ import java.util.List;
 public class SearchPage extends FlowPanel {
 
     private List<Product> products;
-    private Table table;
+    private ProductTable productTable;
 
     public SearchPage(List<Product> products) {
         this.products = products;
         setHeight(Window.getClientHeight() + "px");
-        add(getTable());
+        add(getProductTable());
+        getProductTable().paint();
     }
 
 
 
-    public Table getTable() {
-        if (table == null) {
-            table = new Table(products);
+    public ProductTable getProductTable() {
+        if (productTable == null) {
+            productTable = new ProductTable(products);
         }
-        return table;
+        return productTable;
     }
 
 
