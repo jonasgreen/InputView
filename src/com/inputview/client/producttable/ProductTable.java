@@ -1,8 +1,10 @@
-package com.inputview.client.composittable;
+package com.inputview.client.producttable;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
+import com.inputview.client.composittable.DivComposite;
+import com.inputview.client.composittable.DivCompositeRoot;
 import com.inputview.client.model.Product;
 import com.inputview.client.model.ProductVersion;
 

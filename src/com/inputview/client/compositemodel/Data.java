@@ -10,4 +10,9 @@ public abstract class Data implements Serializable {
 
     protected Data() {
     }
+
+
+    public abstract boolean isDataValue();
+
+
 }

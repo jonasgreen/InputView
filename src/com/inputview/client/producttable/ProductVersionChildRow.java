@@ -1,29 +1,30 @@
-package com.inputview.client.composittable;
+package com.inputview.client.producttable;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.inputview.client.composittable.DivComposite;
+import com.inputview.client.composittable.DivCompositeParent;
 import com.inputview.client.model.ProductVersion;
-import com.inputview.client.model.Type;
 import com.inputview.client.pages.InputViewPage;
+import com.inputview.client.composittable.Column;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  */
-public class ProductVersionRow extends DivComposite<ProductVersion> {
+public class ProductVersionChildRow extends DivComposite<ProductVersion> {
 
     private FlowPanel colOne;
     private FlowPanel colTwo;
     private FlowPanel colThree;
     private FlowPanel colFour;
     private FlowPanel colTo;
-    private Label plusMinus;
+    private FlowPanel colEmpty;
 
 
-    protected ProductVersionRow(DivCompositeParent parent, ProductVersion model) {
+    protected ProductVersionChildRow(DivCompositeParent parent, ProductVersion model) {
         super(parent, model);
+        setStyleName("row_child");
     }
 
     @Override
@@ -31,10 +32,11 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
         InputViewPage.getEditPage().show();
     }
 
+
     @Override
     protected FlowPanel createContent(ProductVersion model) {
         FlowPanel panel = new FlowPanel();
-        panel.add(getPlusMinus());
+        panel.add(getColEmpty());
         panel.add(getColType());
         panel.add(getColName());
         panel.add(getColDraft());
@@ -45,49 +47,25 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
 
     @Override
     protected List<DivComposite<?>> createChildren() {
-        List<DivComposite<?>> list = new ArrayList<DivComposite<?>>();
-        ProductVersion pv = new ProductVersion("C_NRK_34", model.getAuthor(), model.getReviewer(), model.getStartDate(), model.getEndDate(), Type.cover, false);
-        list.add(new ProductVersionChildRow(this, pv));
-
-        pv = new ProductVersion("C_YYY_04", model.getAuthor(), model.getReviewer(), model.getStartDate(), model.getEndDate(), Type.cover, false);
-        list.add(new ProductVersionChildRow(this, pv));
-
-        pv = new ProductVersion("C_KIK_03", model.getAuthor(), model.getReviewer(), model.getStartDate(), model.getEndDate(), Type.cover, false);
-        list.add(new ProductVersionChildRow(this, pv));
-
-        pv = new ProductVersion("C_ZXK_13", model.getAuthor(), model.getReviewer(), model.getStartDate(), model.getEndDate(), Type.cover, false);
-        list.add(new ProductVersionChildRow(this, pv));
-        return list;
+        return null;
     }
+
 
 
     @Override
     protected void onChildrenShow() {
-        getPlusMinus().setText("-");
     }
 
     @Override
     protected void onChildrenHide() {
-        getPlusMinus().setText("+");
-
     }
 
-
-    public Label getPlusMinus() {
-        if (plusMinus == null) {
-            plusMinus = new Label("+");
-            plusMinus.setStyleName("plusMinus");
-            plusMinus.setWidth("10px");
-
-        }
-        return plusMinus;
-    }
 
 
     public FlowPanel getColType() {
         if (colOne == null) {
-            colOne = new Column(model.getType().name());
-            colOne.setWidth("120px");
+            colOne = new Column("cover");
+            colOne.setWidth("94px");
         }
         return colOne;
     }
@@ -96,8 +74,17 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
         if (colTwo == null) {
             colTwo = new Column(model.getName());
             colTwo.setWidth("120px");
+
         }
         return colTwo;
+    }
+
+    public FlowPanel getColEmpty() {
+        if (colEmpty == null) {
+            colEmpty = new Column("");
+            colEmpty.setWidth("40px");
+        }
+        return colEmpty;
     }
 
     public FlowPanel getColDraft() {
@@ -123,6 +110,12 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
         }
         return colTo;
     }
+
+    protected void styleOnFocus() {
+        getFocusPanel().getElement().getStyle().setBackgroundColor("rgb(255,135,0)");
+        getFocusPanel().getElement().getStyle().setColor("white");
+    }
+
 
 
 }

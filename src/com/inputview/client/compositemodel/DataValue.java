@@ -15,6 +15,11 @@ public abstract class DataValue extends Data implements Serializable {
     public DataValue() {
     }
 
+    @Override
+    public boolean isDataValue() {
+        return true;
+    }
+
     public DataValue(String description, String value) {
         this.description = description;
         this.value = value;
