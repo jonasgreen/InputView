@@ -68,7 +68,7 @@ public abstract class DivCompositeRoot<M> extends FocusPanel implements DivCompo
         return content;
     }
 
-    public ScrollPanel getCustomScrollPanel() {
+    public CustomScrollPanel getCustomScrollPanel() {
         if (customScrollPanel == null) {
             customScrollPanel = new CustomScrollPanel(scrollPanelContent);
             customScrollPanel.setHeight(getTableHeight() + "px");
@@ -108,12 +108,11 @@ public abstract class DivCompositeRoot<M> extends FocusPanel implements DivCompo
         rows.get(index-1).setFocusUp(true);
     }
 
-    @Override
+
     public M getModel() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public void showChildren() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
