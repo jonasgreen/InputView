@@ -1,7 +1,6 @@
 package com.inputview.client.pagetabel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.inputview.client.compositemodel.Data;
 import com.inputview.client.compositemodel.DataList;
 import com.inputview.client.composittable.DivComposite;
 import com.inputview.client.composittable.DivCompositeRoot;
@@ -12,13 +11,15 @@ import java.util.List;
 /**
  *
  */
-public class EditPageContentTable extends DivCompositeRoot<DataList>{
+public class ContentTable extends DivCompositeRoot<DataList>{
 
 
     private List<DataList> model;
 
-    public EditPageContentTable(List<DataList> model) {
+    public ContentTable(List<DataList> model, int width) {
+        super(width);
         this.model = model;
+        getElement().getStyle().setBackgroundColor("rgb(245,245,245)");
     }
 
     @Override
@@ -26,8 +27,12 @@ public class EditPageContentTable extends DivCompositeRoot<DataList>{
         List<DivComposite<DataList>> list = new ArrayList<DivComposite<DataList>>();
 
         for (DataList dl : model) {
-            list.add(new ListContentRow(1, this, dl));
+            ContentRow row = new ContentRow(0, this, dl);
+            row.setWidth(width+"px");
+            list.add(row);
         }
+
+        getCustomScrollPanel().setWidth(width+"px");
 
         return list;
     }

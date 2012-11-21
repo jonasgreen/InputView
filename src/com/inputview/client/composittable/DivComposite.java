@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.inputview.client.compositemodel.Data;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
     private static int idCount = 1;
     private int id = idCount++;
 
+    protected int tabIndex;
+
     protected M model;
     protected DivCompositeParent<M> parent;
     protected List<DivComposite<?>> divCompositeChildren;
@@ -24,7 +27,8 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
     private FlowPanel content;
     private FlowPanel childrenHolder;
 
-    protected DivComposite(DivCompositeParent parent, M model) {
+    protected DivComposite(int tabIndex, DivCompositeParent parent, M model) {
+        this.tabIndex = tabIndex;
         this.model = model;
         this.parent = parent;
         add(focusPanel);
@@ -46,7 +50,7 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
     protected ClickHandler getClickHandler() {
         return new ClickHandler() {
             public void onClick(ClickEvent event) {
-                //toggleChildren();
+                //   toggleChildren();
                 event.stopPropagation();
                 event.preventDefault();
             }
@@ -70,8 +74,6 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
     }
 
     protected void styleOnFocus() {
-        getFocusPanel().getElement().getStyle().setBackgroundColor("rgb(50,78,118)");
-        getFocusPanel().getElement().getStyle().setColor("white");
     }
 
     protected BlurHandler getBlurHandler() {
@@ -82,8 +84,8 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
         };
     }
 
-    protected void styleOnBlur(){
-        getFocusPanel().getElement().getStyle().setBackgroundColor("white");
+    protected void styleOnBlur() {
+        getFocusPanel().getElement().getStyle().setBackgroundColor("transparent");
         getFocusPanel().getElement().getStyle().setColor("rgb(51,51,51)");
     }
 
@@ -97,6 +99,7 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
         };
     }
 
+    public abstract String getDescription();
 
     public FocusPanel getFocusPanel() {
         if (focusPanel == null) {
@@ -139,7 +142,7 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
 
     protected abstract void enterPressed();
 
-    protected void showChildren() {
+    public void showChildren() {
         if (childrenHolder == null) {
             enableChildren();
         }
@@ -147,6 +150,7 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
             add(childrenHolder);
             onChildrenShow();
         }
+        parent.showChildren();
     }
 
     protected boolean childrenIsShowing() {
@@ -162,6 +166,7 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
     }
 
     protected void toggleChildren() {
+        System.out.println("toggle");
         if (childrenHolder == null) {
             enableChildren();
         }
@@ -248,10 +253,10 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
     }
 
     public void setFocusUp(boolean focus) {
-        if(childrenIsShowing()){
-            divCompositeChildren.get(divCompositeChildren.size()-1).setFocus(true);
+        if (childrenIsShowing()) {
+            divCompositeChildren.get(divCompositeChildren.size() - 1).setFocusUp(true);
         }
-        else{
+        else {
             focusPanel.setFocus(focus);
         }
     }
@@ -301,5 +306,64 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
     @Override
     public int hashCode() {
         return id;
+    }
+
+    public M getModel() {
+        return model;
+    }
+
+    public DivComposite<?> getElement(Data modelOfConcern) {
+        if (model.equals(modelOfConcern)) {
+            return this;
+        }
+
+        if (hasChildren()) {
+            for (DivComposite<?> child : getDivCompositeChildren()) {
+                DivComposite<?> dc = child.getElement(modelOfConcern);
+                if (dc != null) {
+                    return dc;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void collapse(boolean recursive) {
+        if (childrenIsShowing()) {
+            hideChildren();
+        }
+        if (recursive) {
+            for (DivComposite<?> child : getDivCompositeChildren()) {
+                child.collapse(true);
+            }
+        }
+    }
+
+    public int getTabIndex() {
+        return tabIndex;
+    }
+
+    public boolean showChildrenThatContains(String text) {
+        boolean containsText = false;
+
+        if (hasChildren()) {
+            for (DivComposite<?> div : getDivCompositeChildren()) {
+                containsText = div.showChildrenThatContains(text) || containsText;
+            }
+        }
+
+        containsText = getDescription().contains(text) || containsText;
+        getFocusPanel().setVisible(containsText);
+
+        if (containsText) {
+            System.out.println("return " + getDescription() + ":  " + containsText);
+        }
+
+        return containsText;
+
+    }
+
+    private boolean hasChildren() {
+        return getDivCompositeChildren() != null && !getDivCompositeChildren().isEmpty();
     }
 }

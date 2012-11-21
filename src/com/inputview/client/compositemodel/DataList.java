@@ -10,15 +10,11 @@ import java.util.List;
 public class DataList extends Data{
 
     private static final long serialVersionUID = -6837197794805603784L;
-    private String description;
     private List<Data> values = new ArrayList<Data>();
 
 
-    public DataList() {
-    }
-
     public DataList(String description) {
-        this.description = description;
+        super(description);
     }
 
     @Override
@@ -30,40 +26,41 @@ public class DataList extends Data{
         return values;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setValues(List<Data> values) {
         this.values = values;
     }
 
     public void add(String description, Integer value){
-        values.add(new IntegerValue(description, String.valueOf(value)));
+        values.add(new IntegerValue(this, description, String.valueOf(value)));
     }
 
     public void add(String description, String value){
-        values.add(new StringValue(description, value));
+        values.add(new StringValue(this, description, value));
     }
 
     public void add(String description, Double value){
-        values.add(new DoubleValue(description, String.valueOf(value)));
+        values.add(new DoubleValue(this, description, String.valueOf(value)));
     }
 
     public void add(String description, Boolean value){
-        values.add(new BooleanValue(description, String.valueOf(value)));
+        values.add(new BooleanValue(this, description, String.valueOf(value)));
     }
 
     public void add(String description, Date value){
-        values.add(new DateValue(description, String.valueOf(value)));
+        values.add(new DateValue(this, description, String.valueOf(value)));
     }
 
     public void add(Data data) {
         values.add(data);
+    }
+
+    public boolean containsADataList(){
+        for (Data value : values) {
+            if(value instanceof DataList){
+                return true;
+            }
+        }
+        return false;
     }
 
 

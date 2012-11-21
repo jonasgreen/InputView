@@ -7,14 +7,9 @@ public class IntegerValue extends DataValue{
 
     private static final long serialVersionUID = 4965131130911988601L;
 
-    public IntegerValue() {
+
+    public IntegerValue(DataList parent, String description, String value) {
+        super(parent, description, value);
     }
 
-    public IntegerValue(String description, String value) {
-        super(description, value);
-    }
-
-    public IntegerValue(String description) {
-        super(description);
-    }
 }

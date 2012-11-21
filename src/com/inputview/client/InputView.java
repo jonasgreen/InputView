@@ -16,6 +16,8 @@ public class InputView implements EntryPoint {
     public void onModuleLoad() {
 
         RootPanel.getBodyElement().getStyle().setMargin(0, Style.Unit.PX);
+        RootPanel.getBodyElement().getStyle().setBackgroundColor("rgb(68,77,82)");
+
         RootPanel.get("panel").add(new InputViewPage(new ProductTableModelGenerator().getModelList()));
 
         setupSingleAppKeyboardShortcuts();

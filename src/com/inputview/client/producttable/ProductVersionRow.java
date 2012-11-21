@@ -2,7 +2,7 @@ package com.inputview.client.producttable;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.inputview.client.composittable.Column;
+import com.inputview.client.composittable.DataCell;
 import com.inputview.client.composittable.DivComposite;
 import com.inputview.client.composittable.DivCompositeParent;
 import com.inputview.client.model.ProductVersion;
@@ -26,7 +26,7 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
 
 
     protected ProductVersionRow(DivCompositeParent parent, ProductVersion model) {
-        super(parent, model);
+        super(0, parent, model);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
 
     public FlowPanel getColType() {
         if (colOne == null) {
-            colOne = new Column(model.getType().name());
+            colOne = new DataCell(model.getType().name());
             colOne.setWidth("120px");
         }
         return colOne;
@@ -97,7 +97,7 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
 
     public FlowPanel getColName() {
         if (colTwo == null) {
-            colTwo = new Column(model.getName());
+            colTwo = new DataCell(model.getName());
             colTwo.setWidth("120px");
         }
         return colTwo;
@@ -105,7 +105,7 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
 
     public FlowPanel getColDraft() {
         if (colThree == null) {
-            colThree = new Column(model.isDraft() ? "Kladde" : "");
+            colThree = new DataCell(model.isDraft() ? "Kladde" : "");
             colThree.setWidth("70px");
         }
         return colThree;
@@ -113,7 +113,7 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
 
     public FlowPanel getColFrom() {
         if (colFour == null) {
-            colFour = new Column(model.getStartDate());
+            colFour = new DataCell(model.getStartDate());
             colFour.setWidth("90px");
         }
         return colFour;
@@ -121,11 +121,17 @@ public class ProductVersionRow extends DivComposite<ProductVersion> {
 
     public FlowPanel getColTo() {
         if (colTo == null) {
-            colTo = new Column(model.getEndDate());
+            colTo = new DataCell(model.getEndDate());
             colTo.setWidth("90px");
         }
         return colTo;
     }
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

@@ -18,7 +18,7 @@ public class ProductTable extends DivCompositeRoot<ProductVersion> {
     private List<Product> products;
 
     public ProductTable(List<Product> products) {
-        super();
+        super(400);
         this.products = products;
         getElement().getStyle().setPadding(40, Style.Unit.PX);
     }

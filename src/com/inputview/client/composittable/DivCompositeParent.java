@@ -10,4 +10,7 @@ public interface DivCompositeParent<M>{
 
     public void down(DivComposite<M> widgets);
     public void up(DivComposite<M> widgets);
+    public M getModel();
+
+    public void showChildren();
 }

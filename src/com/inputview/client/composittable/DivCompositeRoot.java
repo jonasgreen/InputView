@@ -2,11 +2,11 @@ package com.inputview.client.composittable;
 
 
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CustomScrollPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.inputview.client.compositemodel.Data;
 
 import java.util.List;
 
@@ -17,13 +17,15 @@ public abstract class DivCompositeRoot<M> extends FocusPanel implements DivCompo
 
     private List<DivComposite<M>> rows;
     private FlowPanel content;
+    protected int width;
 
     private CustomScrollPanel customScrollPanel;
     private FlowPanel scrollPanelContent = new FlowPanel();
 
     private FlowPanel header;
 
-    protected DivCompositeRoot() {
+    protected DivCompositeRoot(int width) {
+        this.width = width;
     }
 
     public void paint() {
@@ -106,5 +108,25 @@ public abstract class DivCompositeRoot<M> extends FocusPanel implements DivCompo
         rows.get(index-1).setFocusUp(true);
     }
 
+    @Override
+    public M getModel() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void showChildren() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+
+    public DivComposite<?> getElement(Data modelOfConcern){
+        for (DivComposite<M> r : getRows()) {
+            DivComposite<?> dc = r.getElement(modelOfConcern);
+            if(dc != null){
+                return dc;
+            }
+        }
+        return null;
+    }
 
 }

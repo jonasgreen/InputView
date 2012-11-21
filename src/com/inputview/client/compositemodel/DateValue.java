@@ -7,14 +7,9 @@ public class DateValue extends DataValue{
 
     private static final long serialVersionUID = 1711837166738855158L;
 
-    public DateValue() {
+
+    public DateValue(DataList parent, String description, String value) {
+        super(parent, description, value);
     }
 
-    public DateValue(String description, String value) {
-        super(description, value);
-    }
-
-    public DateValue(String description) {
-        super(description);
-    }
 }

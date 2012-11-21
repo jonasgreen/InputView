@@ -9,32 +9,20 @@ public abstract class DataValue extends Data implements Serializable {
 
     private static final long serialVersionUID = 6070278387871773681L;
 
-    private String description;
     private String value;
 
-    public DataValue() {
+    private DataList parent;
+
+    public DataValue(DataList parent, String description, String value) {
+        super(description);
+        this.parent = parent;
+        this.value = value;
     }
+
 
     @Override
     public boolean isDataValue() {
         return true;
-    }
-
-    public DataValue(String description, String value) {
-        this.description = description;
-        this.value = value;
-    }
-
-    public DataValue(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getValue() {
@@ -43,5 +31,9 @@ public abstract class DataValue extends Data implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public DataList getParent() {
+        return parent;
     }
 }
