@@ -122,14 +122,10 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
                     event.preventDefault();
                 }
                 else if (KeyCodes.KEY_RIGHT == event.getNativeKeyCode()) {
-                    showChildren();
-                    event.stopPropagation();
-                    event.preventDefault();
+                    rightPressed(event);
                 }
                 else if (KeyCodes.KEY_LEFT == event.getNativeKeyCode()) {
-                    hideChildren();
-                    event.stopPropagation();
-                    event.preventDefault();
+                    leftPressed(event);
                 }
                 else if (KeyCodes.KEY_ENTER == event.getNativeKeyCode()) {
                     enterPressed();
@@ -138,6 +134,12 @@ public abstract class DivComposite<M> extends FlowPanel implements DivCompositeP
                 }
             }
         };
+    }
+
+    protected void leftPressed(KeyDownEvent event) {
+    }
+
+    protected void rightPressed(KeyDownEvent event) {
     }
 
     protected abstract void enterPressed();

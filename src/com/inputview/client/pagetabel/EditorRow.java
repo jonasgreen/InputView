@@ -18,7 +18,6 @@ public abstract class EditorRow<T extends Data> extends DivComposite<T> {
     }
 
 
-
     @Override
     public String getDescription() {
         return model.getDescription();

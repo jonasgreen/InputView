@@ -3,6 +3,7 @@ package com.inputview.client.pagetabel;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.inputview.client.compositemodel.Data;
 import com.inputview.client.compositemodel.DataList;
@@ -25,6 +26,20 @@ public class ContentRow extends DivComposite<DataList> {
         super(tabIndex, parent, model);
         removeStyleName("row");
     }
+
+    @Override
+    protected void rightPressed(KeyDownEvent event) {
+        showChildren();
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    protected void leftPressed(KeyDownEvent event) {
+        hideChildren();
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
 
     protected void styleOnFocus() {
         super.styleOnFocus();

@@ -17,7 +17,7 @@ public class BackgroundSelectionManager {
     private String UN_SELECTED_BACKGROUND = "transparent";
     private String UN_SELECTED_BACKGROUND_TAB_INDEX_0 = "rgb(245,245,245)";
 
-    private String SELECTED_BACKGROUND = "rgb(84,124,182)";
+    public static String SELECTED_BACKGROUND = "rgb(84,124,182)";
 
     private Data model;
 

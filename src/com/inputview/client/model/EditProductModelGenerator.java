@@ -101,7 +101,7 @@ public class EditProductModelGenerator {
             sb.append(chars[Random.nextInt(chars.length - 1)]);
         }
 
-        return sb.toString();
+        return sb.toString().toLowerCase();
 
     }
 

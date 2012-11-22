@@ -27,7 +27,6 @@ h1 {
     -o-transition: right 1s ease; /* Opera */
 }
 
-
 .customScrollPanel{
  width: 300px;
 
@@ -60,6 +59,10 @@ h1 {
 
 .row{
 
+}
+
+.myText{
+    border: 1px solid rgb(84,124,182);
 }
 
 .row_child{
