@@ -2,11 +2,10 @@ package com.inputview.client.composittable;
 
 
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.CustomScrollPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.inputview.client.compositemodel.Data;
+import com.inputview.client.uicomponents.ScrollComponent;
 
 import java.util.List;
 
@@ -19,8 +18,8 @@ public abstract class DivCompositeRoot<M> extends FocusPanel implements DivCompo
     private FlowPanel content;
     protected int width;
 
-    private CustomScrollPanel customScrollPanel;
-    private FlowPanel scrollPanelContent = new FlowPanel();
+    private ScrollComponent customScrollPanel;
+    protected FlowPanel scrollPanelContent = new FlowPanel();
 
     private FlowPanel header;
 
@@ -68,9 +67,9 @@ public abstract class DivCompositeRoot<M> extends FocusPanel implements DivCompo
         return content;
     }
 
-    public CustomScrollPanel getCustomScrollPanel() {
+    public ScrollComponent getCustomScrollPanel() {
         if (customScrollPanel == null) {
-            customScrollPanel = new CustomScrollPanel(scrollPanelContent);
+            customScrollPanel = new ScrollComponent(scrollPanelContent);
             customScrollPanel.setHeight(getTableHeight() + "px");
             customScrollPanel.setStyleName("customScrollPanel");
         }

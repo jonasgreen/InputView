@@ -37,6 +37,8 @@ public class ContentTable extends DivCompositeRoot<DataList>{
         return list;
     }
 
+
+
     @Override
     protected FlowPanel createHeader() {
         return new FlowPanel();  //To change body of implemented methods use File | Settings | File Templates.

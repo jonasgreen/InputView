@@ -37,6 +37,16 @@ public class EditorTable extends DivCompositeRoot<DataList>{
     }
 
     @Override
+    public void paint(){
+        super.paint();
+        FlowPanel bottom = new FlowPanel();
+        bottom.setHeight((getTableHeight()/3)+"px");
+        bottom.getElement().getStyle().setBackgroundColor("white");
+        bottom.setWidth(width+"px");
+        scrollPanelContent.add(bottom);
+    }
+
+    @Override
     protected FlowPanel createHeader() {
         return new FlowPanel();  //To change body of implemented methods use File | Settings | File Templates.
     }

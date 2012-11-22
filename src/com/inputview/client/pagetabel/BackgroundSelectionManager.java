@@ -1,9 +1,10 @@
 package com.inputview.client.pagetabel;
 
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.inputview.client.compositemodel.Data;
+import com.inputview.client.compositemodel.DataList;
 import com.inputview.client.compositemodel.DataValue;
 import com.inputview.client.composittable.DivComposite;
+import com.inputview.client.uicomponents.ScrollComponent;
 
 /**
  *
@@ -26,7 +27,7 @@ public class BackgroundSelectionManager {
     private EditorTable editTable;
     private ContentTable contentTable;
 
-    private ScrollPanel scrollPanel;
+    private ScrollComponent scrollPanel;
 
     public BackgroundSelectionManager(EditorTable editTable, ContentTable contentTable) {
         this.scrollPanel = editTable.getCustomScrollPanel();
@@ -45,13 +46,9 @@ public class BackgroundSelectionManager {
         lastEditSelection = editTable.getElement(newModelInFocus);
         lastEditSelection.getFocusPanel().getElement().getStyle().setBackgroundColor(SELECTED_BACKGROUND);
 
-        if (fromContentTable) {
-            scrollPanel.ensureVisible(lastEditSelection);
+        if (!fromContentTable) {
+            lastEditSelection.getFocusPanel().getElement().getStyle().setColor(SELECTED_COLOR);
         }
-        else{
-           	lastEditSelection.getFocusPanel().getElement().getStyle().setColor(SELECTED_COLOR);                   	
-        }
-        
     }
 
     private void handleContentPart(boolean fromContentTable, Data newModelInFocus) {
@@ -92,5 +89,8 @@ public class BackgroundSelectionManager {
         }
     }
 
+    public void scrollTo(DataList model){
+        scrollPanel.verticalScrollTo(editTable.getElement(model));
+    }
 
 }

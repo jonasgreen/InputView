@@ -39,21 +39,21 @@ public class ContentRow extends DivComposite<DataList> {
 
     @Override
     protected ClickHandler getClickHandler() {
-        if (model.containsADataList()) {
-            return new ClickHandler() {
-                public void onClick(ClickEvent event) {
-                    toggleChildren();
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            };
-        }
-        return super.getClickHandler();
+        return new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                toggleChildren();
+                SearchPage.scrollTo(getModel());
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        };
+
     }
 
     @Override
     protected void enterPressed() {
-
+        toggleChildren();
+        SearchPage.scrollTo(getModel());
     }
 
     @Override
