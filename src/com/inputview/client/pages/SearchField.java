@@ -77,7 +77,6 @@ public class SearchField extends TextBox {
         for (DivComposite<DataList> child : editTable.getRows()) {
             child.showChildrenThatContains(text);
         }
-
         editTable.getCustomScrollPanel().onResize();
     }
 
